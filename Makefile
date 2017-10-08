@@ -1,24 +1,26 @@
-PERF = perf.src
+PERF = utl/performance/kdd-perf
 
-all:
-	$(MAKE) -C $(PERF)
+all: perf
+
+perf:
+	cd ${PERF} && make all
 
 span-tree:
-	mkdir -p out/model out/predict out/perf
+	mkdir -p out/varinfo out/model out/predict out/perf out/cache
 
-clean_csv:
-	rm -f data/csv/headers.csv
-	rm -f data/csv/clicks_*.csv
-	rm -f data/csv/n_clicks_*.csv
-clean_vw:
-	rm -f data/vw/*
-clean_cache:
-	rm -f cache/*
-clean_model:
-	rm -f model/*
-clean_predict:
-	rm -f predict/*
-clean_perf:
-	rm -f $(PERF)/perf
+clean-csv:
+	rm -f data/*csv
+clean-vw:
+	rm -f data/*vw
+clean-cache:
+	rm -f out/cache/*
+clean-varinfo:
+	rm -f out/varinfo/*
+clean-model:
+	rm -f out/model/*
+clean-predict:
+	rm -f out/predict/*
+clean-perf:
+	cd ${PERF} && make clean
 
-clean_all: clean_csv clean_vw clean_cache clean_model clean_predict clean_perf
+clean-all: clean-csv clean-vw clean-cache clean-varinfo clean-model clean-predict clean-perf

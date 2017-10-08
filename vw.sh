@@ -1,4 +1,4 @@
-#!/in/bash
+#!/bin/bash
 
 # ARGUMENTS
 #------------------------------------------------------------------------------
@@ -27,16 +27,16 @@ bcmd='vw'
 if [ "$tune" != "false" ]; then
 	echo '... tuning b'
 	b=$(./vw-hypersearch -t $test_data 18 31 vw --loss_function $loss \
-			-b % $train_data | cut -d$'\t' -f1)
+		-b % $train_data | cut -d$'\t' -f1)
 	echo '... tuning l'
 	l=$(./vw-hypersearch -t $test_data 0.1 100 vw --loss_function $loss \
-			-b $b -l % $train_data | cut -d$'\t' -f1)
+		-b $b -l % $train_data | cut -d$'\t' -f1)
 	echo '... tuning l1'
 	l1=$(./vw-hypersearch -L -t $test_data 1e-10 5e-4 vw --loss_function $loss \
-			 -b $b -l $l --l1 % $train_data | cut -d$'\t' -f1)
+		-b $b -l $l --l1 % $train_data | cut -d$'\t' -f1)
 	echo '... tuning l2'
 	l2=$(./vw-hypersearch -L -t $test_data 1e-10 5e-4 vw --loss_function $loss \
-			 -b $b -l $l --l1 $l1 --l2 % $train_data | cut -d$'\t' -f1)
+		-b $b -l $l --l1 $l1 --l2 % $train_data | cut -d$'\t' -f1)
 fi
 
 bcmd+=" -b $b" 
