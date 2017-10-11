@@ -6,7 +6,7 @@ perf:
 	cd ${PERF} && make all
 
 span-tree:
-	mkdir -p out/varinfo out/model out/predict out/perf out/cache
+	mkdir -p data/ out/varinfo out/model out/predict out/perf out/cache
 
 clean-csv:
 	rm -f data/*csv
