@@ -1,9 +1,12 @@
 PERF = utl/performance/kdd-perf
+VARINFO = utl/audit
 
-all: perf
+all: perf varinfo
 
 perf:
 	cd ${PERF} && make all
+varinfo:
+	cd ${VARINFO} && make all
 
 span-tree:
 	mkdir -p data/ out/varinfo out/model out/predict out/perf out/cache
