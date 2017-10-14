@@ -14,14 +14,9 @@ my $block = 1000000;  # progress indicator
 open(SRC, "<", $src) or die "could not open $src!";
 open(DST, ">", $dst) or die "could not open $dst!";
 
-# header
-#my $headerRow = <SRC>;
-#chomp($headerRow);
-#$headerRow =~ s/"//g;      # deleting " for the quote option from importation
-#my @headerElmt = split(",", $headerRow, -1);
-
 # data
 my $count = 1;
+my @cont = (1, 2, 3, 4, 30, 31, 32, 33, 34, 39, 40, 47, 48, 54, 55);
 while (<SRC>) {
   chomp;
   s/"//g;      # deleting " for the quote option from importation
@@ -30,19 +25,18 @@ while (<SRC>) {
 		unshift @x, '';
 	}
 	my $label = '';
-	if ($x[0] eq '0') {
+	if ($x[29] eq '1' || $x[29] eq '2') { # QuadClass: 1 & 2 = cooperation, 3 & 4 = conflict
 		$label = '-1';
-	} elsif ($x[0] eq '1') {
+	} else {
 		$label = '1';
 	}
   my $row = $label." | ";
-  for (my $col = 1; $col <= 39; $col++) {
-		if ($x[$col] ne "") {
-			if ($col <= 13) {
+  for (my $col = 0; $col <= 57; $col++) {
+		if ($x[$col] ne "" && $col != 0 && $col != 29) { # Exclude GlobalEventID, QuadClass from features
+			if ($col ~~ @cont) {									# Continuous features
 				$row = $row."C_$col:".$x[$col]." ";
-			} else {
-				my $col_D = $col - 13;
-				$row = $row."D_$col_D=".$x[$col]." ";
+			} else {															# Discrete features
+				$row = $row."D_$col=".$x[$col]." ";
 			}
 		}
   }
